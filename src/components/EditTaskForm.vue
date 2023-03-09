@@ -5,13 +5,15 @@
                 Edit
             </v-btn>
         </template>
-        <v-card>
+        <v-card class="px-3 py-3">
             <v-sheet width="300" class="mx-auto">
                 <v-form @submit.prevent>
                     <v-text-field v-model="taskName" :rules="rules" label="Task Name"></v-text-field>
                     <v-text-field v-model="owner" :rules="rules" label="Owner"></v-text-field>
-                    <v-btn variant="plain" type="submit" block class="mt-2">Submit</v-btn>
-                    <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
+                    <div class="d-flex flex-column align-center justify-center">
+                        <v-btn variant="plain" type="submit" block class="mt-2">Submit</v-btn>
+                        <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
+                    </div>
                 </v-form>
             </v-sheet>
         </v-card>
@@ -29,9 +31,9 @@ export default defineComponent({
             type: Object as PropType<Task>
         }
     },
-    data: (instance) => ({
-        taskName: instance.task.name,
-        owner: instance.task.owner.name,
+    data: (props) => ({
+        taskName: props.task.name,
+        owner: props.task.owner.name,
         rules: [
             (value: any) => {
                 if (value) return true

@@ -11,9 +11,9 @@
                 <v-card-text>
                     {{ question }}
                 </v-card-text>
-                <div class="buttons d-flex justify-center">
-                    <v-btn variant="plain" @click="confirmationFunction">Confirm</v-btn>
-                    <v-btn variant="plain" @click="dialog = false">Cancel</v-btn>
+                <div class="d-flex flex-column justify-center align-center py-3">
+                    <v-btn class="w-25" variant="plain" @click="confirmationFunction">Confirm</v-btn>
+                    <v-btn class="w-25" variant="plain" @click="dialog = false">Cancel</v-btn>
                 </div>
             </v-card>
         </v-dialog>
