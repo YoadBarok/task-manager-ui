@@ -7,11 +7,10 @@
 
             <v-card>
                 <v-card-text>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
+                    <TaskModal :task="task"/>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="primary" block @click="dialog = false">Close Dialog</v-btn>
+                    <v-btn color="primary" block @click="dialog = false">Close</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -22,6 +21,7 @@
 import { Task } from '@/types/Task';
 import { defineComponent, PropType, ref } from 'vue';
 import TaskCard from "./TaskCard.vue";
+import TaskModal from "./TaskModal.vue";
 
 export default defineComponent({
     data() {
@@ -42,7 +42,8 @@ export default defineComponent({
         return { hovered }
     },
     components: {
-        TaskCard
+        TaskCard,
+        TaskModal
     }
 })
 </script>

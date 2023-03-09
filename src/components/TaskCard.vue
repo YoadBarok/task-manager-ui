@@ -1,5 +1,5 @@
 <template>
-    <v-card :variant="hovered ? `tonal` : `plain`" class="task-card" @mouseover="() => hovered = true" @mouseout="() => hovered = false">
+    <v-card :variant="hovered" class="task-card" @mouseover="hovered = `tonal`" @mouseout="hovered = `plain`">
         <h2>{{ task.name }}</h2>
         <h3>{{ task.owner.name }}</h3>
         <h4>{{ task.created_at }}</h4>
@@ -20,7 +20,7 @@ export default defineComponent({
     },
 
     setup() {
-        const hovered = ref<boolean>(false);
+        const hovered = ref<'plain' | 'tonal'>('plain');
 
         return { hovered }
     }
