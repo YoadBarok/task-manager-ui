@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app color="primary">
     <v-main>
       <header>
         <div class="order">
@@ -43,28 +43,28 @@ export default defineComponent({
         name: 'Wash the dishes',
         owner: yoad,
         job_state: "complete",
-        created_at: new Date("10-10-2010").toLocaleString()
+        created_at: new Date("10-10-2010").toLocaleString('en-gb')
       },
       {
         job_id: "2",
         name: 'Clean the kitchen',
         owner: yoad,
         job_state: "working",
-        created_at: new Date().toLocaleString()
+        created_at: new Date().toLocaleString('en-gb')
       },
       {
         job_id: "3",
         name: 'Take Eden to preschool',
         owner: ruth,
         job_state: "working",
-        created_at: new Date().toLocaleString()
+        created_at: new Date().toLocaleString('en-gb')
       },
       {
         job_id: "4",
         name: 'Study',
         owner: ruth,
         job_state: "complete",
-        created_at: new Date().toLocaleString()
+        created_at: new Date().toLocaleString('en-gb')
       },
     ]);
 

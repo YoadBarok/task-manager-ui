@@ -9,8 +9,8 @@
                 <v-card-text>
                     <TaskModal :task="task"/>
                 </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+                <v-card-actions class="d-flex justify-center">
+                    <v-btn block @click="dialog = false">Close</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

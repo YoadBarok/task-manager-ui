@@ -29,6 +29,7 @@ export default defineComponent({
 <style>
 
 .task-card {
+    padding: 1em;
     color: black;
     display: flex;
     flex-direction: column;
