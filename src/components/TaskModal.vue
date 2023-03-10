@@ -1,5 +1,5 @@
 <template>
-    <v-flex class="d-flex flex-column align-center">
+    <d-flex class="d-flex flex-column align-center">
         <v-card-text class="d-flex flex-column align-center">
             <p>Task name:</p>
             <h2>{{ task.name }}</h2>
@@ -19,16 +19,29 @@
             <ConfirmationModal :confirmColor="'error'" :variant="'plain'" :color="'error'" :open-button-text="'Delete'"
                 :question="`Are you sure you want to delete the task: ${task.name}?`" :confirmation-function="removeTask" />
         </div>
-    </v-flex>
+    </d-flex>
 </template>
 
 <script lang="ts">
+import { TaskService } from '@/services/TaskService'
 import { Task } from '@/types/Task'
 import { defineComponent, PropType } from 'vue'
 import ConfirmationModal from "./ConfirmationModal.vue"
 import EditTaskForm from "./EditTaskForm.vue"
 
 export default defineComponent({
+
+    setup(props) {
+        const taskService = new TaskService();
+        const removeTask = async () => {
+            if (props.task?.job_id){
+                await taskService.removeTask(props.task.job_id);
+                window.location.reload();
+            }
+        }
+        return {removeTask}
+    },
+
     props: {
         task: {
             required: true,
@@ -39,11 +52,6 @@ export default defineComponent({
         ConfirmationModal,
         EditTaskForm
     },
-    methods: {
-        removeTask() {
-            window.location.reload();
-        }
-    }
 
 })
 </script>

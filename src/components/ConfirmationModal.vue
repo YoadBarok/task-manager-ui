@@ -2,7 +2,7 @@
     <div class="text-center">
         <v-dialog v-model="dialog" width="auto">
             <template v-slot:activator="{ props }">
-                <v-btn :variant="variant" :color="color" v-bind="props">
+                <v-btn :disabled="disabled" :variant="variant" :color="color" v-bind="props">
                     {{ openButtonText }}
                 </v-btn>
             </template>
@@ -49,6 +49,10 @@ export default defineComponent({
         confirmColor: {
             required: false,
             type: String
+        },
+        disabled: {
+            required: false,
+            type: Boolean
         }
     },
     data() {
@@ -56,9 +60,5 @@ export default defineComponent({
             dialog: false,
         }
     },
-    setup(props) {
-        console.log(props.color);
-
-    }
 })
 </script>

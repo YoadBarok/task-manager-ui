@@ -2,6 +2,16 @@
   <v-app color="primary">
     <v-main class="d-flex flex-column align-center">
       <header>
+        <div class="my-5 d-flex justify-center">
+          <v-btn>
+            create a task
+            <v-overlay activator="parent">
+              <div class="overlay-content">
+                <CreateTaskForm @create-task="createTask" :tasks="tasks" />
+              </div>
+            </v-overlay>
+          </v-btn>
+        </div>
         <div class="order">
           <v-btn @click="sortTasks('name')">order by name</v-btn>
           <v-btn @click="sortTasks('owner')">order by owner</v-btn>
@@ -9,20 +19,13 @@
           <v-btn @click="sortTasks('job_state')">order by status</v-btn>
         </div>
       </header>
-      <v-expansion-panels rounded="10px" variant="accordion" class="my-10">
-        <v-expansion-panel class="custom-panel" title="Create a task" >
-          <v-expansion-panel-text>
-            <CreateTaskForm @create-task="createTask" :tasks="tasks" />
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
       <TasksList :tasks="tasks" :order="order" :direction="direction" />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import TasksList from "./components/TasksList.vue";
 import CreateTaskForm from "./components/CreateTaskForm.vue"
 import { TaskService } from './services/TaskService';
@@ -40,7 +43,10 @@ export default defineComponent({
   setup() {
 
     const taskService = new TaskService();
-    const tasks = ref<Task[]>(taskService.getCompletedTasks());
+    const tasks = ref<Task[]>([]);
+    onMounted(async () => {
+      tasks.value = await taskService.getCompletedTasks();
+    })
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');
 
@@ -49,37 +55,24 @@ export default defineComponent({
       direction.value = direction.value === 'desc' ? 'asc' : 'desc';
     }
 
-    return { tasks, sortTasks, order, direction };
+    const createTask = async (newTask: Task) => {
+      await taskService.createTask(newTask);
+      window.location.reload();
+    }
+
+    return { tasks, sortTasks, order, direction, createTask };
 
   },
-  methods: {
-    createTask(newTask: Task) {
-      // TODO: Replace with taskService.createTask(newTask)      
-      this.tasks.push(newTask);
-    }
-  }
 })
 </script>
 
-<style>
-header {
-  text-align: center;
-}
-
-header .order {
-  margin-top: 20px;
-}
-
+<style scoped>
 button {
   margin: 0 10px;
-  background: #d5f0ff;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
 }
 
-.custom-panel {
-  max-width: 500px; /* set the width to whatever value you want */
+.overlay-content {
+  position: absolute;
+  transform: translate(35.5em, 10em);
 }
 </style>

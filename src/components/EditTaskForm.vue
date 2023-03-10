@@ -8,11 +8,15 @@
         </template>
         <v-card class="px-3 py-3" width="250">
             <v-sheet>
-                <v-form @submit.prevent>
-                    <v-text-field v-model="taskName" :rules="rules" label="Task Name"></v-text-field>
+                <v-form @submit="editTask">
+                    <v-text-field v-model="name" :rules="rules" label="Task Name"></v-text-field>
                     <v-select name="owner" label="Owner" v-model="owner" :items="users" item-title="name" return-object />
                     <div class="d-flex flex-column align-center justify-center">
-                        <v-btn variant="plain" type="submit" block class="mt-2">Submit</v-btn>
+                        <div class="confirm">
+                            <ConfirmationModal :disabled="!changed || !name" :variant="'plain'" :open-button-text="'Edit'"
+                                :question="`Are you sure you want to edit the task: ${task.name}?`"
+                                :confirmation-function="editTask" />
+                        </div>
                         <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
                     </div>
                 </v-form>
@@ -22,28 +26,48 @@
 </template>
 
 <script lang="ts">
+import { TaskService } from '@/services/TaskService';
 import { Task } from '@/types/Task';
-import { defineComponent, PropType, ref } from 'vue'
+import { User } from '@/types/User';
+import { computed, defineComponent, PropType, ref } from 'vue'
 import { UserService } from "../services/UserService";
+import ConfirmationModal from "./ConfirmationModal.vue"
 
 export default defineComponent({
 
-    setup() {
+    setup(props) {
         const userService = new UserService();
         const users = ref(userService.getAllUsers());
+        const taskService = new TaskService();
+        const name = ref<string>(props.task.name);
+        const owner = ref<User>(props.task.owner);
 
-        return { users }
+        const editTask = async () => {
+            const id = props.task.job_id;
+            if (id) {
+                await taskService.editTask(id, { name: name.value, owner: owner.value });
+                window.location.reload();
+            }
+        }
+
+        const changed = computed(() => {
+            return name.value !== props.task.name || owner.value.id !== props.task.owner.id;
+        })
+
+
+        return { users, name, owner, editTask, changed }
     },
-
     props: {
         task: {
             required: true,
             type: Object as PropType<Task>
         }
     },
-    data: (props) => ({
-        taskName: props.task.name,
-        owner: props.task.owner.name,
+    components: {
+        ConfirmationModal
+    }
+    ,
+    data: () => ({
         rules: [
             (value: string) => {
                 if (value) return true
@@ -55,3 +79,8 @@ export default defineComponent({
     }),
 })
 </script>
+<style scoped>
+.confirm {
+    min-height: 36px;
+}
+</style>

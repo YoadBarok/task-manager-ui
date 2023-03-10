@@ -45,11 +45,29 @@ export class TaskService {
         },
     ];
 
-    getAllTasks(): Task[] {
+    async getAllTasks(): Promise<Task[]> {
         return this.allTasks
     }
 
-    getCompletedTasks(): Task[] {
+    async getCompletedTasks(): Promise<Task[]> {
         return this.allTasks.filter(task => task.job_state === "complete")
+    }
+
+    async createTask(newTask: Task): Promise<void> {
+        this.allTasks.push(newTask);
+    }
+
+    async editTask(id: string, data: {name: string, owner: User}): Promise<void> {
+        const taskToEdit = this.allTasks.find(t => t.job_id === id);
+        if (taskToEdit) {
+            taskToEdit.name = data.name;
+            taskToEdit.owner = {...data.owner};
+        }
+    }
+
+    async removeTask(id: string): Promise<void> {
+        const taskToRemove = this.allTasks.find(t => t.job_id === id);
+        console.log("Removing: " + JSON.stringify(taskToRemove));
+        
     }
 }
