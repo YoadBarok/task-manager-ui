@@ -1,6 +1,6 @@
 <template>
   <v-app color="primary">
-    <v-main>
+    <v-main class="d-flex flex-column align-center">
       <header>
         <div class="order">
           <v-btn @click="handleClick('name')">order by name</v-btn>
@@ -9,6 +9,13 @@
           <v-btn @click="handleClick('job_state')">order by status</v-btn>
         </div>
       </header>
+      <v-expansion-panels class="expansion my-10" width="100">
+        <v-expansion-panel title="Create a task">
+          <v-expansion-panel-text class="d-flex flex-column align-center">
+            <CreateTaskForm @create-task="createTask" :tasks="tasks" />
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
       <TasksList :tasks="tasks" :order="order" :direction="direction" />
     </v-main>
   </v-app>
@@ -17,57 +24,23 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import TasksList from "./components/TasksList.vue";
+import CreateTaskForm from "./components/CreateTaskForm.vue"
+import { TaskService } from './services/TaskService';
 import OrderDirection from './types/OrderDirection';
 import OrderTerm from './types/OrderTerm';
 import { Task } from './types/Task'
-import { User } from './types/User';
 
 export default defineComponent({
   name: 'App',
   components: {
-    TasksList
+    TasksList,
+    CreateTaskForm
   },
 
   setup() {
-    const yoad: User = {
-      id: "1",
-      name: "Yoad"
-    }
-    const ruth: User = {
-      id: "2",
-      name: "Ruth"
-    }
-    const tasks = ref<Task[]>([
-      {
-        job_id: "1",
-        name: 'Wash the dishes',
-        owner: yoad,
-        job_state: "complete",
-        created_at: new Date("10-10-2010").toLocaleString('en-gb')
-      },
-      {
-        job_id: "2",
-        name: 'Clean the kitchen',
-        owner: yoad,
-        job_state: "working",
-        created_at: new Date().toLocaleString('en-gb')
-      },
-      {
-        job_id: "3",
-        name: 'Take Eden to preschool',
-        owner: ruth,
-        job_state: "working",
-        created_at: new Date().toLocaleString('en-gb')
-      },
-      {
-        job_id: "4",
-        name: 'Study',
-        owner: ruth,
-        job_state: "complete",
-        created_at: new Date().toLocaleString('en-gb')
-      },
-    ]);
 
+    const taskService = new TaskService();
+    const tasks = ref<Task[]>(taskService.getAllTasks());
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');
 
@@ -78,12 +51,17 @@ export default defineComponent({
 
     return { tasks, handleClick, order, direction };
 
+  },
+  methods: {
+    createTask(newTask: Task) {
+      // Replace with taskService.createTask(newTask)      
+      this.tasks.push(newTask);
+    }
   }
 })
 </script>
 
 <style>
-
 header {
   text-align: center;
 }
@@ -91,6 +69,7 @@ header {
 header .order {
   margin-top: 20px;
 }
+
 button {
   margin: 0 10px;
   background: #d5f0ff;
@@ -98,5 +77,10 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
+}
+.expansion {
+  max-width: 30%;
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -5,11 +5,11 @@
                 Edit
             </v-btn>
         </template>
-        <v-card class="px-3 py-3">
-            <v-sheet width="300" class="mx-auto">
+        <v-card class="px-3 py-3" width="250">
+            <v-sheet>
                 <v-form @submit.prevent>
                     <v-text-field v-model="taskName" :rules="rules" label="Task Name"></v-text-field>
-                    <v-text-field v-model="owner" :rules="rules" label="Owner"></v-text-field>
+                    <v-select name="owner" label="Owner" v-model="owner" :items="users" item-title="name" return-object />
                     <div class="d-flex flex-column align-center justify-center">
                         <v-btn variant="plain" type="submit" block class="mt-2">Submit</v-btn>
                         <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
@@ -22,9 +22,18 @@
 
 <script lang="ts">
 import { Task } from '@/types/Task';
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
+import { UserService } from "../services/UserService";
 
 export default defineComponent({
+
+    setup() {
+        const userService = new UserService();
+        const users = ref(userService.getAllUsers());
+
+        return { users }
+    },
+
     props: {
         task: {
             required: true,
@@ -35,7 +44,7 @@ export default defineComponent({
         taskName: props.task.name,
         owner: props.task.owner.name,
         rules: [
-            (value: any) => {
+            (value: string) => {
                 if (value) return true
 
                 return 'You must enter a task name.'

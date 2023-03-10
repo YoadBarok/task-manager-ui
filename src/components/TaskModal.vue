@@ -16,8 +16,7 @@
         </div>
         <div class="d-flex justify-between mb-3">
             <EditTaskForm :task="task" />
-            <!-- <v-btn variant="plain">Edit</v-btn> -->
-            <ConfirmationModal :variant="'plain'" :color="'error'" :open-button-text="'Delete'"
+            <ConfirmationModal :confirmColor="'error'" :variant="'plain'" :color="'error'" :open-button-text="'Delete'"
                 :question="`Are you sure you want to delete the task: ${task.name}?`" :confirmation-function="removeTask" />
         </div>
     </v-flex>

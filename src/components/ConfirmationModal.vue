@@ -12,7 +12,7 @@
                     {{ question }}
                 </v-card-text>
                 <div class="d-flex flex-column justify-center align-center py-3">
-                    <v-btn class="w-25" variant="plain" @click="confirmationFunction">Confirm</v-btn>
+                    <v-btn class="w-25" :color="confirmColor" variant="plain" @click="confirmationFunction">Confirm</v-btn>
                     <v-btn class="w-25" variant="plain" @click="dialog = false">Cancel</v-btn>
                 </div>
             </v-card>
@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import Variant from '@/types/Variant';
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
@@ -43,7 +44,11 @@ export default defineComponent({
         },
         variant: {
             required: false,
-            type: String as PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">
+            type: String as PropType<Variant>
+        },
+        confirmColor: {
+            required: false,
+            type: String
         }
     },
     data() {
