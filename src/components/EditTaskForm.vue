@@ -1,3 +1,4 @@
+<!-- TODO: Fix the alignment of the component to be centered -->
 <template>
     <v-dialog v-model="dialog" width="auto">
         <template v-slot:activator="{ props }">

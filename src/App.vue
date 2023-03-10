@@ -3,10 +3,10 @@
     <v-main class="d-flex flex-column align-center">
       <header>
         <div class="order">
-          <v-btn @click="handleClick('name')">order by name</v-btn>
-          <v-btn @click="handleClick('owner')">order by owner</v-btn>
-          <v-btn @click="handleClick('created_at')">order by date</v-btn>
-          <v-btn @click="handleClick('job_state')">order by status</v-btn>
+          <v-btn @click="sortTasks('name')">order by name</v-btn>
+          <v-btn @click="sortTasks('owner')">order by owner</v-btn>
+          <v-btn @click="sortTasks('created_at')">order by date</v-btn>
+          <v-btn @click="sortTasks('job_state')">order by status</v-btn>
         </div>
       </header>
       <v-expansion-panels rounded="10px" variant="accordion" class="my-10">
@@ -44,17 +44,17 @@ export default defineComponent({
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');
 
-    const handleClick = (term: OrderTerm) => {
+    const sortTasks = (term: OrderTerm) => {
       order.value = term;
       direction.value = direction.value === 'desc' ? 'asc' : 'desc';
     }
 
-    return { tasks, handleClick, order, direction };
+    return { tasks, sortTasks, order, direction };
 
   },
   methods: {
     createTask(newTask: Task) {
-      // Replace with taskService.createTask(newTask)      
+      // TODO: Replace with taskService.createTask(newTask)      
       this.tasks.push(newTask);
     }
   }
