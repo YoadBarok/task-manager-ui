@@ -9,9 +9,9 @@
           <v-btn @click="handleClick('job_state')">order by status</v-btn>
         </div>
       </header>
-      <v-expansion-panels class="expansion my-10" width="100">
-        <v-expansion-panel title="Create a task">
-          <v-expansion-panel-text class="d-flex flex-column align-center">
+      <v-expansion-panels rounded="10px" variant="accordion" class="my-10">
+        <v-expansion-panel class="custom-panel" title="Create a task" >
+          <v-expansion-panel-text>
             <CreateTaskForm @create-task="createTask" :tasks="tasks" />
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -40,7 +40,7 @@ export default defineComponent({
   setup() {
 
     const taskService = new TaskService();
-    const tasks = ref<Task[]>(taskService.getAllTasks());
+    const tasks = ref<Task[]>(taskService.getCompletedTasks());
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');
 
@@ -78,9 +78,8 @@ button {
   cursor: pointer;
   font-weight: bold;
 }
-.expansion {
-  max-width: 30%;
-  display: flex;
-  justify-content: center;
+
+.custom-panel {
+  max-width: 500px; /* set the width to whatever value you want */
 }
 </style>
