@@ -1,5 +1,5 @@
 <template>
-    <d-flex class="d-flex flex-column align-center">
+    <div class="d-flex flex-column align-center content">
         <v-card-text class="d-flex flex-column align-center">
             <p>Task name:</p>
             <h2>{{ task.name }}</h2>
@@ -19,7 +19,7 @@
             <ConfirmationModal :confirmColor="'error'" :variant="'plain'" :color="'error'" :open-button-text="'Delete'"
                 :question="`Are you sure you want to delete the task: ${task.name}?`" :confirmation-function="removeTask" />
         </div>
-    </d-flex>
+    </div>
 </template>
 
 <script lang="ts">
@@ -55,3 +55,8 @@ export default defineComponent({
 
 })
 </script>
+<style scoped>
+.content {
+    max-width: 35vw;
+}
+</style>

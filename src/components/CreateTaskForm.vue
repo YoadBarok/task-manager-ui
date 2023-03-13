@@ -1,24 +1,23 @@
 <template>
-        <v-card class="mx-3 my-3" width="350">
-            <v-sheet>
-                <v-form class="mx-3 my-3" @submit.prevent="createTask">
-                    <h2>Create a task</h2>
-                    <v-text-field name="name" :rules="rules" label="Task Name" v-model="name"></v-text-field>
-                    <v-select :rules="rules" required v-model="owner" name="owner" label="Owner" :items="users"
-                        item-title="name" return-object />
-                    <div class="d-flex flex-column align-center justify-center">
-                        <v-btn variant="plain" type="submit" block class="mt-2">Submit</v-btn>
-                    </div>
-                </v-form>
-            </v-sheet>
-        </v-card>
+    <v-sheet class="mx-3 my-3" width="350">
+        <v-sheet>
+            <v-form class="mx-3 my-3" @submit.prevent="createTask">
+                <h2>Create a task</h2>
+                <v-text-field name="name" :rules="rules" label="Task Name" v-model="name"></v-text-field>
+                <v-select :rules="rules" required v-model="owner" name="owner" label="Owner" :items="users"
+                    item-title="name" return-object />
+                <div class="d-flex flex-column align-center justify-center">
+                    <v-btn :disabled="!name || !owner" variant="plain" type="submit" block class="mt-2">Submit</v-btn>
+                </div>
+            </v-form>
+        </v-sheet>
+    </v-sheet>
 </template>
 
 <script lang="ts">
 import { UserService } from '@/services/UserService';
-import { Task } from '@/types/Task';
 import { User } from '@/types/User';
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 
 export default defineComponent({
@@ -36,21 +35,12 @@ export default defineComponent({
                 job_state: "working",
                 created_at: new Date().toLocaleString("en-gb")
             }
-            if (name.value && owner.value) {
+            if (name.value && owner.value) {                
                 context.emit('create-task', newTask);
             }
         }
 
         return { users, name, owner, createTask }
-    },
-    props: {
-        tasks: {
-            required: true,
-            type: Array as PropType<Task[]>
-        }
-    },
-    method: {
-
     },
     data() {
         return {
@@ -65,3 +55,6 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+</style>

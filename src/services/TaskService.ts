@@ -17,7 +17,7 @@ export class TaskService {
     allTasks: Task[] = [
         {
             job_id: "1",
-            name: 'Wash the dishes',
+            name: 'Wash the dishes, Wash the dishes, Wash the dishes, Wash the dishes, Wash the dishes, Wash the dishes, Wash the dishes, ',
             owner: this.yoad,
             job_state: "complete",
             created_at: new Date("10-10-2010").toLocaleString('en-gb')

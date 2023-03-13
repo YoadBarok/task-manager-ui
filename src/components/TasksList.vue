@@ -55,29 +55,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.task-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-width: 50%;
-    margin: 40px auto;
-}
-
-.task-list ul {
-    padding: 0;
-}
 
 .task-list li {
     list-style-type: none;
-    background: white;
     padding: 16px;
     margin: 16px 0;
-    border-radius: 4px;
-}
-
-.task-list h2 {
-    margin: 0 0 10px;
-    text-transform: capitalize;
 }
 
 .list-move {
