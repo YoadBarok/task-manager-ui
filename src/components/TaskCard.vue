@@ -23,7 +23,7 @@ export default defineComponent({
         }
     },
 
-    setup(props) {
+    setup() {
         const hovered = ref<'plain' | 'tonal'>('plain');
         return { hovered }
     },
