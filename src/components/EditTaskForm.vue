@@ -29,7 +29,7 @@
 import { TaskService } from '@/services/TaskService';
 import { Task } from '@/types/Task';
 import { User } from '@/types/User';
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 import { UserService } from "../services/UserService";
 import ConfirmationModal from "./ConfirmationModal.vue"
 
@@ -37,15 +37,21 @@ export default defineComponent({
 
     setup(props) {
         const userService = new UserService();
-        const users = ref(userService.getAllUsers());
         const taskService = new TaskService();
         const name = ref<string>(props.task.name);
-        const owner = ref<User>(props.task.owner);
+        const owner = ref<User>(props.task.owner);        
+        const users = ref<User[]>([]);
+
+        onMounted(async () => {
+            users.value = await userService.getAllUsers();
+        })
 
         const editTask = async () => {
-            const id = props.task.job_id;
+            const id = props.task.id;
+            
             if (id) {
-                await taskService.editTask(id, { name: name.value, owner: owner.value });
+                const data = { name: name.value, owner_id: owner.value.id }
+                await taskService.editTask(id, data);
                 window.location.reload();
             }
         }

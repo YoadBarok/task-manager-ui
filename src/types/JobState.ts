@@ -1,1 +1,1 @@
-export type JobState = "working" | "complete"
+export type JobState = "WORKING" | "COMPLETE"

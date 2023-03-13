@@ -1,9 +1,10 @@
 <template>
-  <NavBar />
   <v-app color="primary">
+    <NavBar />
     <v-main class="d-flex flex-column align-center">
       <CreateTaskModal @create-task="createTask" />
-      <SortingButtons :sortTasks="sortTasks" />
+      <SortingButtons v-if="tasks.length > 0" :sortTasks="sortTasks" />
+      <h2 class="mt-10" v-if="tasks.length === 0">No tasks...</h2>
       <TasksList :tasks="tasks" :order="order" :direction="direction" />
     </v-main>
   </v-app>
@@ -33,11 +34,14 @@ export default defineComponent({
 
     const taskService = new TaskService();
     const tasks = ref<Task[]>([]);
-    onMounted(async () => {
-      tasks.value = await taskService.getAllTasks();
-    })
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');
+    onMounted(async () => {
+      tasks.value = await taskService.getAllTasks();
+      setInterval(async () => {
+        tasks.value = await taskService.getAllTasks();
+      }, 10000)
+    })
 
     const sortTasks = (term: OrderTerm) => {
       order.value = term;

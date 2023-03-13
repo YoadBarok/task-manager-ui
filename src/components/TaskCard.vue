@@ -1,12 +1,14 @@
 <template>
-    <v-card :variant="hovered" class="task-card" @mouseover="hovered = `tonal`" @mouseout="hovered = `plain`">
-        <div class="task-name">
-            <h2>{{ task.name }}</h2>
-        </div>
-        <h3>{{ task.owner.name }}</h3>
-        <h4>{{ task.created_at }}</h4>
-        <h5>State: {{ task.job_state }}</h5>
-    </v-card>
+    <div :class="task.job_state === 'COMPLETE' ? 'complete': 'working'">
+        <v-card :variant="hovered" class="task-card" @mouseover="hovered = `tonal`" @mouseout="hovered = `plain`">
+            <div class="task-name">
+                <h2>{{ task.name }}</h2>
+            </div>
+            <h3>{{ task.owner.name }}</h3>
+            <h4>{{ task.created_at }}</h4>
+            <h5>State: <span>{{ task.job_state }}</span></h5>
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -21,11 +23,10 @@ export default defineComponent({
         }
     },
 
-    setup() {
+    setup(props) {
         const hovered = ref<'plain' | 'tonal'>('plain');
-
         return { hovered }
-    }
+    },
 })
 </script>
 <style>
@@ -50,4 +51,13 @@ export default defineComponent({
     overflow: hidden;
     mask-image: linear-gradient(180deg, #000 60%, transparent);
 }
+
+.working span {
+    color: red;
+}
+
+.complete span {
+    color: green;
+}
+
 </style>

@@ -7,7 +7,7 @@
                 <v-select :rules="rules" required v-model="owner" name="owner" label="Owner" :items="users"
                     item-title="name" return-object />
                 <div class="d-flex flex-column align-center justify-center">
-                    <v-btn :disabled="!name || !owner" variant="plain" type="submit" block class="mt-2">Submit</v-btn>
+                    <v-btn :disabled="!name || !owner" variant="plain" type="submit" block :class="name && owner ? 'submit' : null">Submit</v-btn>
                 </div>
             </v-form>
         </v-sheet>
@@ -17,23 +17,24 @@
 <script lang="ts">
 import { UserService } from '@/services/UserService';
 import { User } from '@/types/User';
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 
 
 export default defineComponent({
     setup(props, context) {
         const userService = new UserService();
-        const users = ref<User[]>(userService.getAllUsers());
+        const users = ref<User[]>([]);
+        onMounted(async () => {
+            users.value = await userService.getAllUsers();
+        })
 
         const name = ref<string>('');
-        const owner = ref<object>();
+        const owner = ref<User>();
 
         const createTask = () => {
             const newTask = {
                 name: name.value,
-                owner: { ...owner.value },
-                job_state: "working",
-                created_at: new Date().toLocaleString("en-gb")
+                owner_id: owner.value?.id,
             }
             if (name.value && owner.value) {                
                 context.emit('create-task', newTask);
@@ -57,4 +58,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.submit {
+    color: green;
+}
 </style>

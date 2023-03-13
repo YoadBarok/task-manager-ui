@@ -1,21 +1,11 @@
 import { User } from "@/types/User";
+import axios from "axios";
+
+const URL = process.env.VUE_APP_API_URL;
 
 export class UserService {
-
-    getAllUsers(): User[] {
-        return [
-            {
-                id: "1",
-                name: "Yoad"
-            },
-            {
-                id: "2",
-                name: "Ruth"
-            },
-            {
-                id: "3",
-                name: "Eden"
-            }
-        ]
-    }
+  async getAllUsers(): Promise<User[]> {
+    const users = await axios.get(URL + "/api/users");
+    return users.data.result;
+  }
 }

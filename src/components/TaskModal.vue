@@ -35,7 +35,7 @@ export default defineComponent({
         const taskService = new TaskService();
         const removeTask = async () => {
             if (props.task?.job_id){
-                await taskService.removeTask(props.task.job_id);
+                await taskService.removeTask(props.task.id);
                 window.location.reload();
             }
         }
