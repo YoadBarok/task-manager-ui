@@ -2,7 +2,7 @@
   <v-app color="primary">
     <NavBar />
     <v-main class="d-flex flex-column align-center">
-      <CreateTaskModal @create-task="createTask" />
+      <CreateTaskModal />
       <SortingButtons v-if="tasks.length > 0" :sortTasks="sortTasks" />
       <h2 class="mt-10" v-if="tasks.length === 0">No tasks...</h2>
       <TasksList :tasks="tasks" :order="order" :direction="direction" />
@@ -49,12 +49,7 @@ export default defineComponent({
       direction.value = direction.value === 'desc' ? 'asc' : 'desc';
     }
 
-    const createTask = async (newTask: Task) => {
-      await taskService.createTask(newTask);
-      window.location.reload();
-    }
-
-    return { tasks, sortTasks, order, direction, createTask };
+    return { tasks, sortTasks, order, direction };
 
   },
   data() {

@@ -23,23 +23,24 @@
 </template>
 
 <script lang="ts">
-import { TaskService } from '../services/TaskService'
 import { Task } from '../types/Task'
 import { defineComponent, PropType } from 'vue'
 import ConfirmationModal from "./ConfirmationModal.vue"
 import EditTaskForm from "./EditTaskForm.vue"
+import { useStore } from 'vuex'
 
 export default defineComponent({
 
     setup(props) {
-        const taskService = new TaskService();
+        const store = useStore();
+        const taskService = store.state.taskService
         const removeTask = async () => {
-            if (props.task?.job_id){
+            if (props.task?.job_id) {
                 await taskService.removeTask(props.task.id);
                 window.location.reload();
             }
         }
-        return {removeTask}
+        return { removeTask }
     },
 
     props: {

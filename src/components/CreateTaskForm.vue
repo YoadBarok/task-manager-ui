@@ -3,11 +3,12 @@
         <v-sheet>
             <v-form class="mx-3 my-3" @submit.prevent="createTask">
                 <h2>Create a task</h2>
-                <v-text-field name="name" :rules="rules" label="Task Name" v-model="name"></v-text-field>
-                <v-select :rules="rules" required v-model="owner" name="owner" label="Owner" :items="users"
+                <v-text-field data-testid="name-input" id="name-input" name="name" :rules="rules" label="Task Name" v-model="name"></v-text-field>
+                <v-select id="owner-input" :rules="rules" required v-model="owner" name="owner" label="Owner" :items="users"
                     item-title="name" return-object />
                 <div class="d-flex flex-column align-center justify-center">
-                    <v-btn :disabled="!name || !owner" variant="plain" type="submit" block :class="name && owner ? 'submit' : null">Submit</v-btn>
+                    <v-btn id="submit-button" :disabled="!name || !owner" variant="plain" type="submit" block
+                        :class="name && owner ? 'submit' : null">Submit</v-btn>
                 </div>
             </v-form>
         </v-sheet>
@@ -20,11 +21,11 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 
-
 export default defineComponent({
-    setup(props, context) {
+    setup() {
         const store = useStore();
         const userService = store.state.userService;
+        const taskService = store.state.taskService;
         const users = ref<User[]>([]);
         onMounted(async () => {
             users.value = await userService.getAllUsers();
@@ -33,14 +34,15 @@ export default defineComponent({
         const name = ref<string>('');
         const owner = ref<User>();
 
-        const createTask = () => {
+        const createTask = async () => {
             const newTask = {
                 name: name.value,
                 owner_id: owner.value?.id,
             }
-            if (name.value && owner.value) {                
-                context.emit('create-task', newTask);
-            }
+            if (name.value && owner.value) {
+                await taskService.createTask(newTask);
+                window.location.reload()
+            } else throw new Error("Must fill the required fields");
         }
 
         return { users, name, owner, createTask }

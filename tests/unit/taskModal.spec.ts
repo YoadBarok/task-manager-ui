@@ -1,30 +1,50 @@
-import { shallowMount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import TaskModal from "@/components/TaskModal.vue";
+import { createStore } from "vuex";
 
 describe("TaskModal.vue", () => {
-  it("renders props.msg when passed", () => {
-    const testUser = {
-      name: "Test User",
+  let store: any;
+  let mockedTask: any;
+
+  beforeEach(() => {
+    mockedTask = {
       id: 1,
+      name: "Test task",
+      owner_id: 1,
+      owner: {
+        id: 1,
+        name: "Test Owner",
+        created_at: Date.now().toLocaleString(),
+      },
+      job_state: "COMPLETE",
       created_at: Date.now().toLocaleString(),
     };
-    const task = {
-      id: 1,
-      name: "test task",
-      owner_id: 1,
-      owner: testUser,
-      job_state: "COMPLETE",
-      created_at: Date.now().toLocaleString()
+    const taskServiceMock = {
+      removeTask: jest.fn(),
     };
-    const wrapper = shallowMount(TaskModal, {
-      provide: {
-        task() {
-          return task
-        }
-      }
+    const userServiceMock = {
+      getAllUsers: jest.fn(),
+    };
+    store = createStore({
+      state: {
+        taskService: taskServiceMock,
+        userService: userServiceMock,
+      },
     });
-    expect(wrapper.text()).toMatch(task.name);
-    expect(wrapper.text()).toMatch(task.created_at);
-    expect(wrapper.text()).toMatch(task.owner.name);
+  });
+
+  it("displays the task details correctly", async () => {
+    const wrapper = mount(TaskModal, {
+      props: {
+        task: mockedTask,
+      },
+      global: {
+        plugins: [store],
+      },
+    });
+    
+    expect(wrapper.find("h2").text()).toBe(mockedTask.name);
+    expect(wrapper.find("h3").text()).toBe(mockedTask.owner.name);
+    expect(wrapper.findAll("h3").at(1)?.text()).toBe(mockedTask.created_at);
   });
 });
