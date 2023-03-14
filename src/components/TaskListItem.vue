@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Task } from '../types/Task';
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import TaskCard from "./TaskCard.vue";
 import TaskModal from "./TaskModal.vue";
 

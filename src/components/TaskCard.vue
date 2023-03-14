@@ -1,6 +1,11 @@
 <template>
     <div :class="task.job_state === 'COMPLETE' ? 'complete': 'working'">
-        <v-card :variant="hovered" class="task-card" @mouseover="hovered = `tonal`" @mouseout="hovered = `plain`">
+        <v-card 
+        :disabled="task.job_state === 'WORKING'" 
+        :variant="hovered" class="task-card" 
+        @mouseover="hovered = `tonal`" 
+        @mouseout="hovered = `plain`"
+        >
             <div class="task-name">
                 <h2>{{ task.name }}</h2>
             </div>

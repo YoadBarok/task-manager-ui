@@ -10,11 +10,12 @@
 
 
 <script lang="ts">
-import OrderDirection from '@/types/OrderDirection';
-import OrderTerm from '@/types/OrderTerm';
-import { Task } from '@/types/Task';
+import OrderDirection from '../types/OrderDirection';
+import OrderTerm from '../types/OrderTerm';
+import { Task } from '../types/Task';
 import { computed, defineComponent, PropType, ref } from 'vue'
 import TaskListItem from './TaskListItem.vue';
+import sortTasks from "../utils/sortTasks";
 
 export default defineComponent({
     props: {
@@ -33,18 +34,7 @@ export default defineComponent({
     },
     setup(props) {
         const orderedTasks = computed(() => {
-            return [...props.tasks].sort((a: Task, b: Task) => {
-                if (props.order === "owner") {
-                    if (props.direction === "desc") {
-                        return a.owner.name > b.owner.name ? 1 : -1;
-                    }
-                    return a.owner.name < b.owner.name ? 1 : -1;
-                }
-                if (props.direction === "desc") {
-                    return a[props.order] > b[props.order] ? 1 : -1;
-                }
-                return a[props.order] < b[props.order] ? 1 : -1;
-            });
+            return sortTasks(props.tasks, props.order, props.direction)
         });
 
         const clicked = ref<boolean>(false);
@@ -55,7 +45,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .task-list li {
     list-style-type: none;
     padding: 16px;

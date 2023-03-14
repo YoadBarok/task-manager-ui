@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts">
-import { TaskService } from '@/services/TaskService'
-import { Task } from '@/types/Task'
+import { TaskService } from '../services/TaskService'
+import { Task } from '../types/Task'
 import { defineComponent, PropType } from 'vue'
 import ConfirmationModal from "./ConfirmationModal.vue"
 import EditTaskForm from "./EditTaskForm.vue"
