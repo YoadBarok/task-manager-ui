@@ -16,10 +16,11 @@ import TasksList from "./components/TasksList.vue";
 import CreateTaskModal from "./components/CreateTaskModal.vue"
 import NavBar from "./components/NavBar.vue"
 import SortingButtons from "./components/SortingButtons.vue"
-import { TaskService } from './services/TaskService';
 import OrderDirection from './types/OrderDirection';
 import OrderTerm from './types/OrderTerm';
 import { Task } from './types/Task'
+import { useStore } from 'vuex'
+
 
 export default defineComponent({
   name: 'App',
@@ -31,8 +32,8 @@ export default defineComponent({
   },
 
   setup() {
-
-    const taskService = new TaskService();
+    const store = useStore();
+    const taskService = store.state.taskService
     const tasks = ref<Task[]>([]);
     const order = ref<OrderTerm>('created_at');
     const direction = ref<OrderDirection>('desc');

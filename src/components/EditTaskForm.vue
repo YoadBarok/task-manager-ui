@@ -6,40 +6,45 @@
                 Edit
             </v-btn>
         </template>
+        <div class="edit-form">
         <v-card class="px-3 py-3" width="250">
-            <v-sheet>
-                <v-form @submit="editTask">
-                    <v-text-field v-model="name" :rules="rules" label="Task Name"></v-text-field>
-                    <v-select name="owner" label="Owner" v-model="owner" :items="users" item-title="name" return-object />
-                    <div class="d-flex flex-column align-center justify-center">
-                        <div class="confirm">
-                            <ConfirmationModal :disabled="!changed || !name" :variant="'plain'" :open-button-text="'Edit'"
-                                :question="`Are you sure you want to edit the task: ${task.name}?`"
-                                :confirmation-function="editTask" />
+                <v-sheet>
+                    <v-form @submit="editTask">
+                        <v-text-field v-model="name" :rules="rules" label="Task Name"></v-text-field>
+                        <v-select name="owner" label="Owner" v-model="owner" :items="users" item-title="name"
+                            return-object />
+                        <div class="d-flex flex-column align-center justify-center">
+                            <div class="confirm">
+                                <ConfirmationModal :disabled="!changed || !name" :variant="'plain'"
+                                    :open-button-text="'Edit'"
+                                    :question="`Are you sure you want to edit the task: ${task.name}?`"
+                                    :confirmation-function="editTask" />
+                            </div>
+                            <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
                         </div>
-                        <v-btn variant="plain" @click="dialog = false" block class="mt-2">Close</v-btn>
-                    </div>
-                </v-form>
-            </v-sheet>
-        </v-card>
+                    </v-form>
+                </v-sheet>
+            </v-card>
+        </div>
     </v-dialog>
 </template>
 
 <script lang="ts">
-import { TaskService } from '@/services/TaskService';
-import { Task } from '@/types/Task';
-import { User } from '@/types/User';
+import { Task } from '../types/Task';
+import { User } from '../types/User';
 import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
-import { UserService } from "../services/UserService";
 import ConfirmationModal from "./ConfirmationModal.vue"
+import { useStore } from 'vuex'
+
 
 export default defineComponent({
 
     setup(props) {
-        const userService = new UserService();
-        const taskService = new TaskService();
+        const store = useStore();
+        const userService = store.state.userService;
+        const taskService = store.state.taskService;
         const name = ref<string>(props.task.name);
-        const owner = ref<User>(props.task.owner);        
+        const owner = ref<User>(props.task.owner);
         const users = ref<User[]>([]);
 
         onMounted(async () => {
@@ -48,7 +53,7 @@ export default defineComponent({
 
         const editTask = async () => {
             const id = props.task.id;
-            
+
             if (id) {
                 const data = { name: name.value, owner_id: owner.value.id }
                 await taskService.editTask(id, data);
@@ -89,4 +94,12 @@ export default defineComponent({
 .confirm {
     min-height: 36px;
 }
+
+.edit-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-53.5%, -50%);
+}
+
 </style>

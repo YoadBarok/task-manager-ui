@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Task } from '@/types/Task';
+import { Task } from '../types/Task';
 import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
