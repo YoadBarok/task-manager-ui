@@ -1,4 +1,4 @@
-# Instruction:
+# Instructions:
 
 <ol>
   <li>Run npm i</li>
