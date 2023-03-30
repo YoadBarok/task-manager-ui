@@ -54,7 +54,7 @@ export default defineComponent({
 
 .task-name {
     overflow: hidden;
-    mask-image: linear-gradient(180deg, #000 60%, transparent);
+    mask-image: linear-gradient(180deg, #000 58%, transparent);
 }
 
 .working span {
