@@ -2,7 +2,7 @@
 <template>
     <v-dialog v-model="dialog" width="auto">
         <template v-slot:activator="{ props }">
-            <v-btn variant="plain" v-bind="props">
+            <v-btn @click="() => getUpdatedUsers()" variant="plain" v-bind="props">
                 Edit
             </v-btn>
         </template>
@@ -35,6 +35,7 @@ import { User } from '@/types/User';
 import { computed, defineComponent, PropType, ref } from 'vue'
 import ConfirmationModal from "../modals/ConfirmationModal.vue"
 import { useStore } from 'vuex'
+import updateUsers from '@/utils/updateUsers';
 
 
 export default defineComponent({
@@ -44,7 +45,11 @@ export default defineComponent({
         const taskService = store.state.taskService;
         const name = ref<string>(props.task.name);
         const owner = ref<User>(props.task.owner);
-        const users = ref<User[]>(store.state.users);
+        const users = ref<User[]>([]);
+
+        const getUpdatedUsers = async () => {
+            users.value = await updateUsers(store);
+        }
 
         const editTask = async () => {
             const id = props.task.id;
@@ -60,7 +65,7 @@ export default defineComponent({
             return name.value !== props.task.name || owner.value.id !== props.task.owner.id;
         })
 
-        return { users, name, owner, editTask, changed }
+        return { users, name, owner, editTask, changed, getUpdatedUsers }
     },
     props: {
         task: {

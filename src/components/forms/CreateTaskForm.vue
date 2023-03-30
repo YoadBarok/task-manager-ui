@@ -17,7 +17,8 @@
 
 <script lang="ts">
 import { User } from '@/types/User';
-import { defineComponent, ref } from 'vue'
+import updateUsers from '@/utils/updateUsers';
+import { defineComponent, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
 
 
@@ -25,9 +26,13 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const taskService = store.state.taskService;
-        const users = ref<User[]>(store.state.users);
+        const users = ref<User[]>([]);
+        onBeforeMount(async () => {
+            users.value = await updateUsers(store);
+        })
         const name = ref<string>('');
         const owner = ref<User>();
+        
 
         const createTask = async () => {
             const newTask = {
