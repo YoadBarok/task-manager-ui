@@ -37,7 +37,7 @@ export default defineComponent({
 <style>
 
 .task-card {
-    max-width: 30vw;
+    max-width: 15vw;
     max-height: 30vh;
     padding: 1em;
     color: black;
