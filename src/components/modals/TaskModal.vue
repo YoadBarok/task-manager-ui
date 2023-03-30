@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-import { Task } from '../types/Task'
+import { Task } from '@/types/Task';
 import { defineComponent, PropType } from 'vue'
 import ConfirmationModal from "./ConfirmationModal.vue"
-import EditTaskForm from "./EditTaskForm.vue"
+import EditTaskForm from "../forms/EditTaskForm.vue"
 import { useStore } from 'vuex'
 
 export default defineComponent({

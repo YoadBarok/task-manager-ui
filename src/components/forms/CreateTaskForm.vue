@@ -16,21 +16,16 @@
 </template>
 
 <script lang="ts">
-import { User } from '../types/User';
-import { defineComponent, onMounted, ref } from 'vue'
+import { User } from '@/types/User';
+import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 
 
 export default defineComponent({
     setup() {
         const store = useStore();
-        const userService = store.state.userService;
         const taskService = store.state.taskService;
-        const users = ref<User[]>([]);
-        onMounted(async () => {
-            users.value = await userService.getAllUsers();
-        })
-
+        const users = ref<User[]>(store.state.users);
         const name = ref<string>('');
         const owner = ref<User>();
 

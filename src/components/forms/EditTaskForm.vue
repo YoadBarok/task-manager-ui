@@ -30,10 +30,10 @@
 </template>
 
 <script lang="ts">
-import { Task } from '../types/Task';
-import { User } from '../types/User';
-import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
-import ConfirmationModal from "./ConfirmationModal.vue"
+import { Task } from '@/types/Task';
+import { User } from '@/types/User';
+import { computed, defineComponent, PropType, ref } from 'vue'
+import ConfirmationModal from "../modals/ConfirmationModal.vue"
 import { useStore } from 'vuex'
 
 
@@ -41,15 +41,10 @@ export default defineComponent({
 
     setup(props) {
         const store = useStore();
-        const userService = store.state.userService;
         const taskService = store.state.taskService;
         const name = ref<string>(props.task.name);
         const owner = ref<User>(props.task.owner);
-        const users = ref<User[]>([]);
-
-        onMounted(async () => {
-            users.value = await userService.getAllUsers();
-        })
+        const users = ref<User[]>(store.state.users);
 
         const editTask = async () => {
             const id = props.task.id;
@@ -64,7 +59,6 @@ export default defineComponent({
         const changed = computed(() => {
             return name.value !== props.task.name || owner.value.id !== props.task.owner.id;
         })
-
 
         return { users, name, owner, editTask, changed }
     },

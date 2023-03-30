@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import TaskModal from "@/components/TaskModal.vue";
+import TaskModal from "@/components/modals/TaskModal.vue";
 import { createStore } from "vuex";
 
 describe("TaskModal.vue", () => {

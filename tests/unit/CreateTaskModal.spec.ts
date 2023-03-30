@@ -1,7 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import CreateTaskModal from "@/components/CreateTaskModal.vue";
-import { Task } from "@/types/Task";
-import { createStore } from "vuex";
+import CreateTaskModal from "@/components/modals/CreateTaskModal.vue";
 
 describe("CreateTaskModal.vue", () => {
 

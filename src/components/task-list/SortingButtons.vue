@@ -1,10 +1,10 @@
 <template>
     <header>
         <div class="order mt-5">
-          <v-btn @click="sortTasks('name')">order by name</v-btn>
-          <v-btn @click="sortTasks('owner')">order by owner</v-btn>
-          <v-btn @click="sortTasks('created_at')">order by date</v-btn>
-          <v-btn @click="sortTasks('job_state')">order by status</v-btn>
+          <v-btn @click="changeOrder('name')">order by name</v-btn>
+          <v-btn @click="changeOrder('owner')">order by owner</v-btn>
+          <v-btn @click="changeOrder('created_at')">order by date</v-btn>
+          <v-btn @click="changeOrder('job_state')">order by status</v-btn>
         </div>
       </header>
 </template>
@@ -14,7 +14,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
     props: {
-        sortTasks: {
+        changeOrder: {
             required: true,
             type: Function
         }

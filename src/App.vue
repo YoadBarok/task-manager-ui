@@ -3,22 +3,16 @@
     <NavBar />
     <v-main class="d-flex flex-column align-center">
       <CreateTaskModal />
-      <SortingButtons v-if="tasks.length > 0" :sortTasks="sortTasks" />
-      <h2 class="mt-10" v-if="tasks.length === 0">No tasks...</h2>
-      <TasksList :tasks="tasks" :order="order" :direction="direction" />
+      <TasksList />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import TasksList from "./components/TasksList.vue";
-import CreateTaskModal from "./components/CreateTaskModal.vue"
+import { defineComponent, onMounted } from 'vue'
+import TasksList from "./components/task-list/TasksList.vue";
+import CreateTaskModal from "./components/modals/CreateTaskModal.vue"
 import NavBar from "./components/NavBar.vue"
-import SortingButtons from "./components/SortingButtons.vue"
-import OrderDirection from './types/OrderDirection';
-import OrderTerm from './types/OrderTerm';
-import { Task } from './types/Task'
 import { useStore } from 'vuex'
 
 
@@ -28,28 +22,14 @@ export default defineComponent({
     TasksList,
     NavBar,
     CreateTaskModal,
-    SortingButtons
   },
 
   setup() {
     const store = useStore();
-    const taskService = store.state.taskService
-    const tasks = ref<Task[]>([]);
-    const order = ref<OrderTerm>('created_at');
-    const direction = ref<OrderDirection>('desc');
+    const userService = store.state.userService;
     onMounted(async () => {
-      tasks.value = await taskService.getAllTasks();
-      setInterval(async () => {
-        tasks.value = await taskService.getAllTasks();
-      }, 10000)
+      store.commit("updateUsers", await userService.getAllUsers());
     })
-
-    const sortTasks = (term: OrderTerm) => {
-      order.value = term;
-      direction.value = direction.value === 'desc' ? 'asc' : 'desc';
-    }
-
-    return { tasks, sortTasks, order, direction };
 
   },
   data() {

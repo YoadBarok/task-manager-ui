@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import CreateTaskForm from "@/components/CreateTaskForm.vue";
+import CreateTaskForm from "@/components/forms/CreateTaskForm.vue";
 import { Task } from "@/types/Task";
 import { createStore } from "vuex";
 

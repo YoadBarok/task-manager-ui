@@ -2,7 +2,7 @@
     <div class="text-center">
         <v-dialog :disabled="task.job_state === 'WORKING'" v-model="dialog" width="auto">
             <template v-slot:activator="{ props }">
-                <TaskCard v-bind="props" :task="task"></TaskCard>
+                <TaskListItemInfo v-bind="props" :task="task" />
             </template>
 
             <v-card>
@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import { Task } from '../types/Task';
+import { Task } from '../../types/Task';
 import { defineComponent, PropType } from 'vue';
-import TaskCard from "./TaskCard.vue";
-import TaskModal from "./TaskModal.vue";
+import TaskListItemInfo from "./TaskListItemInfo.vue";
+import TaskModal from "../modals/TaskModal.vue";
 
 export default defineComponent({
     data() {
@@ -37,7 +37,7 @@ export default defineComponent({
     },
 
     components: {
-        TaskCard,
+        TaskListItemInfo,
         TaskModal
     }
 })

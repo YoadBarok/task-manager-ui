@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import Variant from '../types/Variant';
+import Variant from '@/types/Variant';
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({

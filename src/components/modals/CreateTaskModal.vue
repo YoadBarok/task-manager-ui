@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import CreateTaskForm from "./CreateTaskForm.vue"
+import CreateTaskForm from "../forms/CreateTaskForm.vue";
 
 export default defineComponent({
   data() {
