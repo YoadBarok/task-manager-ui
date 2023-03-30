@@ -14,4 +14,5 @@
   <li>Modified the structure of the components folder</li>
   <li>Modified some of the imports to have absolute path</li>
   <li>Created a separate updateTasks function for polling the server</li>
+  <li>Created a separate updateUsers function for updating the users when the edit and create forms are opened</li>
 </ol>
